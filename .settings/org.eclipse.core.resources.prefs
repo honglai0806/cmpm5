@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//src/controller/LoginController.java=UTF-8
+encoding//src/controller/LoginFacebookController.java=UTF-8
+encoding//src/controller/RegisterController.java=UTF-8
+encoding//src/model/RestFB.java=UTF-8
+encoding//src/model/Validate.java=UTF-8
+encoding//src/modelDAO/CheckLogin.java=UTF-8
+encoding//src/modelDAO/DBConnection.java=UTF-8
+encoding//src/modelDAO/UserDAO.java=UTF-8
