@@ -14,7 +14,7 @@ public class CheckLogin {
 	static PreparedStatement preparedStmt = null;
 
 //Trả về 1 User gồm Username và Password
-	public Users checkLogin(String username, String pass) throws SQLException {
+	public Users checkLogin(String username, String password) throws SQLException {
 
 		return getUsers(username, pass);
 	}
@@ -28,7 +28,7 @@ public class CheckLogin {
 		try {
 			preparedStmt = conn.prepareStatement(sql);
 			preparedStmt.setString(1, username);
-			preparedStmt.setString(2, pass);
+			preparedStmt.setString(2, password);
 			rs = preparedStmt.executeQuery();
 			while (rs.next()) {
 				users = new Users(rs.getString("Username"), rs.getString("Email"), rs.getString("Password"));
@@ -43,9 +43,9 @@ public class CheckLogin {
 	}
 
 	public static void main(String[] args) throws SQLException {
-		Users users = new Users("abc", "123d");
+		Users users = new Users("hong", "hong");
 		CheckLogin checkLogi = new CheckLogin();
-		System.out.println(checkLogi.checkLogin("abc", "123"));
+		System.out.println(checkLogi.checkLogin("hong", "hong"));
 
 	}
 
