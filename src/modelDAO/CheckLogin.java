@@ -8,38 +8,33 @@ import java.sql.SQLException;
 import model.Users;
 
 public class CheckLogin {
-	static ResultSet rs;
-	static DBConnection connection = new DBConnection();
-	static Connection conn = connection.getConnectDatabase();
-	static PreparedStatement preparedStmt = null;
 
-//Trả về 1 User gồm Username và Password
-	public Users checkLogin(String username, String pass) throws SQLException {
-
-		return getUsers(username, pass);
-	}
-
-	// connect tới databasse User
-	//kiểm tra tồn tại ĐBj
-	public Users getUsers(String username, String pass) {
-		conn = connection.getConnectDatabase();
+	public Users checkLogin(String username, String pass) throws SQLException {		
+	       Users users = null;
+		//1. Kết nối tới database quyenvipcjd_NMCNPM
+		Connection conn = new DBConnection().getConnectDatabase();
 		String sql = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
-		Users users = null;
 		try {
-			preparedStmt = conn.prepareStatement(sql);
+			//2. Tìm thông tin tài khoản dựa vào username và password
+			PreparedStatement preparedStmt = conn.prepareStatement(sql);
 			preparedStmt.setString(1, username);
 			preparedStmt.setString(2, pass);
-			rs = preparedStmt.executeQuery();
+			//3. Nhận một resultset gồm một rs
+			
+		ResultSet rs = preparedStmt.executeQuery();
 			while (rs.next()) {
+				//4.1 Trả về Users chứa thông tin tài khoản 
 				users = new Users(rs.getString("Username"), rs.getString("Email"), rs.getString("Password"));
 			}
-
+			//5. Đóng kết nối
+			rs.close();
+			preparedStmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return users;
-
 	}
 
 	public static void main(String[] args) throws SQLException {
