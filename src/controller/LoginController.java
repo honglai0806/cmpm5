@@ -30,38 +30,40 @@ public class LoginController extends HttpServlet {
 
 		response.setContentType("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		// 2. Lấy Dữ liệu từ trang Login gồm các trường mà mình nhập vào
+		// 1. Nhận dữ liệu gửi từ client gồm username và password
 		String username = request.getParameter("username");
 		String password = request.getParameter("pass");
-		System.out.println(username);
-		System.out.println(password);
 		// Tạo ra 1 sesion mục đích để giữ đăng nhập
 		HttpSession session = request.getSession();
-		// 3. kiểm tra login
-		CheckLogin checkLogin = new CheckLogin();
+		// 2. Khởi tạo User
 		Users users;
-
 		try {
-			// 3.1 Kiểm tra trong database nếu tồn tại usename và password thì cho login vào
-			// hẹ thống.
-			users = checkLogin.checkLogin(username, password);
+			// 3. Gọi phương thức checkLogin để kiểm tra tính đúng đắn của usernme và
+			// password trả về user
+			CheckLogin check = new CheckLogin();
+			users = check.checkLogin(username, password);
 			// 3.2 Nếu usename và password đúng thì quay về trang wellcome bao gồm thông tin
 			// của user
 			if (users != null) {
+				// 4.1 Đúng username , password
+				
+				//4.1.1 Lưu thông tin user
 				session.setAttribute("user", users);
-				response.sendRedirect("Wellcome.jsp");
+				//4.1.2 Chuyển đến trang Welcome
+				response.sendRedirect("Welcome.jsp");
 
 			} else {
-				//3.3 Nếu lỗi thì thông báo ra sai tên tài đã tồn tại và quay về trang Login.jsp
+				// 4.2 Sai username hoặc password
+				
+				//4.2.1 Thông báo " Bạn đã Nhập sai tên tài khoản hoặc mật khẩu"
 				session.setAttribute("error",
 						" <i class=\"fas fa-exclamation-triangle\"></i>  Bạn đã Nhập sai tên tài khoản hoặc mật khẩu");
+				//4.2.2 Chuyển về trang Login
 				response.sendRedirect("Login.jsp");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 }
